@@ -31,6 +31,9 @@ public actor TorrentManager {
     // Maps engine torrent IDs to libtorrent handles
     private var handleMap: [TorrentID: OpaquePointer] = [:] // lt_torrent_t*
 
+    // Per-torrent options
+    private var optionsMap: [TorrentID: TorrentOptions] = [:]
+
     // Event stream
     private let eventContinuation: AsyncStream<TorrentEvent>.Continuation
     public let events: AsyncStream<TorrentEvent>
@@ -78,6 +81,11 @@ public actor TorrentManager {
             }
         }
 
+        // Load options
+        for (id, options) in persistence.allOptionFiles() {
+            optionsMap[id] = options
+        }
+
         // Start polling
         var pollCount = 0
         pollingTask = Task { [weak self] in
@@ -104,6 +112,17 @@ public actor TorrentManager {
         session = nil
         handleMap.removeAll()
         eventContinuation.finish()
+    }
+
+    // MARK: - Options
+
+    public func setTorrentOptions(_ options: TorrentOptions, for id: TorrentID) {
+        optionsMap[id] = options
+        try? persistence.saveOptions(options, for: id)
+    }
+
+    public func torrentOptions(for id: TorrentID) -> TorrentOptions {
+        optionsMap[id] ?? TorrentOptions()
     }
 
     // MARK: - Adding Torrents
@@ -150,6 +169,8 @@ public actor TorrentManager {
         handleMap.removeValue(forKey: id)
         torrents.removeValue(forKey: id)
         try? persistence.deleteResumeData(for: id)
+        try? persistence.deleteOptions(for: id)
+        optionsMap.removeValue(forKey: id)
         eventContinuation.yield(.removed(id))
     }
 
@@ -316,6 +337,25 @@ public actor TorrentManager {
                 stats: stats,
                 infoHash: infoHash
             )
+
+            // Completion detection
+            if newState == .seeding && !(optionsMap[id]?.hasCompleted ?? false) {
+                var opts = optionsMap[id] ?? TorrentOptions()
+
+                // Move storage if configured
+                if let movePath = opts.moveToPath {
+                    lt_torrent_move_storage(handle, movePath)
+                }
+
+                // Mark completed and persist
+                opts.hasCompleted = true
+                optionsMap[id] = opts
+                try? persistence.saveOptions(opts, for: id)
+
+                if let completedTorrent = torrents[id] {
+                    eventContinuation.yield(.completed(completedTorrent, opts))
+                }
+            }
         }
 
         globalStats = GlobalStats(
