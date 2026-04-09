@@ -181,6 +181,12 @@ struct TorrentContextMenu: View {
             NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: torrent.savePath)
         }
 
+        Button("Copy Magnet Link") {
+            let magnet = "magnet:?xt=urn:btih:\(torrent.infoHash)"
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(magnet, forType: .string)
+        }
+
         Divider()
 
         Button("Remove", role: .destructive) {

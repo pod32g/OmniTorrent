@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import SwiftUI
 import UserNotifications
@@ -77,6 +78,7 @@ final class TorrentListViewModel {
             let allTorrents = await manager.torrents
             self.torrents = Array(allTorrents.values).sorted { $0.name < $1.name }
             self.globalStats = await manager.globalStats
+            DockProgress.update(torrents: self.torrents)
         }
     }
 
@@ -93,6 +95,7 @@ final class TorrentListViewModel {
             trigger: nil
         )
         UNUserNotificationCenter.current().add(request)
+        NSSound(named: "Glass")?.play()
     }
 
     private func executeCompletionAction(_ action: CompletionAction, torrent: Torrent) {

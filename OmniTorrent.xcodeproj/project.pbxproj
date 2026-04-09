@@ -18,6 +18,7 @@
 		756706301A25D3DD5EFE61C4 /* StatusColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CF9C417678DB8734E1F2AC /* StatusColor.swift */; };
 		786D298B95645ABD25BB65F0 /* PeersTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F412DB6ED086D56994E865F /* PeersTabView.swift */; };
 		8CF3AEA37885A54A696A55CC /* MenuBarDropdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB8DF34E1A704336207341F /* MenuBarDropdownView.swift */; };
+		952DA9D7CD8055F3F63322AA /* DockProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EDE459BE696A76C68A2E18 /* DockProgress.swift */; };
 		95D00AB0FDB67C1A0F7E0CB1 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632B9FB09B76335F78C29559 /* SettingsViewModel.swift */; };
 		A18BD526B4398E0BC4EDA5E1 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D65D3DD47525C4DF1E3E76 /* SidebarView.swift */; };
 		B10310D70619D92B628D9DBF /* TorrentCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF114A002128285872AD9734 /* TorrentCardView.swift */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		0FC12239DD2BEE9D5061D914 /* PieceMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceMapView.swift; sourceTree = "<group>"; };
 		21DF454933276D68F171F0EE /* FormatHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatHelpers.swift; sourceTree = "<group>"; };
+		30EDE459BE696A76C68A2E18 /* DockProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockProgress.swift; sourceTree = "<group>"; };
 		37BD0BB7CC2F914181445CB9 /* OmniTorrentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OmniTorrentApp.swift; sourceTree = "<group>"; };
 		44E7BE3B4BD90AC3698B6968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5866B631892325F9F01C6A4C /* InfoTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTabView.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 		7F0A037B4CE1A2BCCB9A1F69 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				30EDE459BE696A76C68A2E18 /* DockProgress.swift */,
 				21DF454933276D68F171F0EE /* FormatHelpers.swift */,
 				E0CF9C417678DB8734E1F2AC /* StatusColor.swift */,
 			);
@@ -216,6 +219,7 @@
 			files = (
 				2F261367E35FE3FC943354E4 /* ContentView.swift in Sources */,
 				DA319F7FEC6DA1603ABDCDF8 /* DetailPanelView.swift in Sources */,
+				952DA9D7CD8055F3F63322AA /* DockProgress.swift in Sources */,
 				F86254FA582209E6DC9A008E /* FilesTabView.swift in Sources */,
 				CC02FC822461884046754C0D /* FormatHelpers.swift in Sources */,
 				B606066C4ACA221FCCD1D4E9 /* InfoTabView.swift in Sources */,
