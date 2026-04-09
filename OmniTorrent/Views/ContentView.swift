@@ -47,9 +47,7 @@ struct ContentView: View {
         }
         .toolbar {
             ToolbarItem {
-                Button(action: openTorrentFile) {
-                    Image(systemName: "plus")
-                }
+                addButton
             }
         }
         .background {
@@ -73,6 +71,20 @@ struct ContentView: View {
             }
             .keyboardShortcut(.delete, modifiers: [])
             .opacity(0)
+        }
+    }
+
+    @ViewBuilder
+    private var addButton: some View {
+        if #available(macOS 26, *) {
+            Button(action: openTorrentFile) {
+                Image(systemName: "plus")
+            }
+            .buttonStyle(.glass)
+        } else {
+            Button(action: openTorrentFile) {
+                Image(systemName: "plus")
+            }
         }
     }
 

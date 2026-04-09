@@ -1,6 +1,16 @@
 import SwiftUI
 import OmniTorrentEngine
 
+extension Scene {
+    func windowGlass() -> some Scene {
+        if #available(macOS 26, *) {
+            return self.windowStyle(.automatic)
+        } else {
+            return self
+        }
+    }
+}
+
 class AppDelegate: NSObject, NSApplicationDelegate {
     var viewModel: TorrentListViewModel?
 
@@ -37,6 +47,7 @@ struct OmniTorrentApp: App {
                 .onAppear { appDelegate.viewModel = viewModel }
         }
         .defaultSize(width: 1000, height: 700)
+        .windowGlass()
         .commands {
             CommandGroup(replacing: .newItem) {
                 Button("Open Torrent...") {
@@ -45,6 +56,7 @@ struct OmniTorrentApp: App {
                 .keyboardShortcut("o")
             }
         }
+
 
         Settings {
             SettingsView(viewModel: SettingsViewModel(manager: viewModel.manager))

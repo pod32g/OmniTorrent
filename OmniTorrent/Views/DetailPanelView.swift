@@ -39,8 +39,19 @@ struct DetailPanelView: View {
                 }
             }
         }
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
+        .glassPanel()
         .padding(.horizontal, 10)
         .padding(.bottom, 10)
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func glassPanel() -> some View {
+        if #available(macOS 26, *) {
+            self.glassEffect(.regular, in: .rect(cornerRadius: 14))
+        } else {
+            self.background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
+        }
     }
 }

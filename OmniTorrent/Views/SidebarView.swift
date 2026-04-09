@@ -13,18 +13,32 @@ struct SidebarView: View {
                 }
             }
         }
-        .background(.ultraThinMaterial)
         .safeAreaInset(edge: .bottom) {
-            HStack(spacing: 12) {
-                Text("\u{2193} \(FormatHelpers.formatRate(viewModel.globalStats.downloadRate))")
-                Text("\u{2191} \(FormatHelpers.formatRate(viewModel.globalStats.uploadRate))")
-            }
-            .font(.caption)
-            .foregroundStyle(.secondary)
-            .padding(.horizontal, 16)
-            .padding(.vertical, 10)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(.ultraThinMaterial)
+            speedStatsChip
+        }
+    }
+
+    private var speedStatsChip: some View {
+        HStack(spacing: 12) {
+            Text("\u{2193} \(FormatHelpers.formatRate(viewModel.globalStats.downloadRate))")
+            Text("\u{2191} \(FormatHelpers.formatRate(viewModel.globalStats.uploadRate))")
+        }
+        .font(.caption)
+        .foregroundStyle(.secondary)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .glassChip()
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func glassChip() -> some View {
+        if #available(macOS 26, *) {
+            self.glassEffect(.regular, in: .rect(cornerRadius: 10))
+        } else {
+            self.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
         }
     }
 }

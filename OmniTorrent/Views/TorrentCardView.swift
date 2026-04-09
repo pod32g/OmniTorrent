@@ -45,18 +45,37 @@ struct TorrentCardView: View {
                 .scaleEffect(y: 0.5)
         }
         .padding(14)
-        .background {
-            RoundedRectangle(cornerRadius: 14)
-                .fill(.ultraThinMaterial)
-        }
-        .overlay {
-            if isSelected {
-                RoundedRectangle(cornerRadius: 14)
-                    .strokeBorder(Color.accentColor.opacity(0.3), lineWidth: 1.5)
-            }
-        }
+        .glassCard(isSelected: isSelected)
         .contextMenu {
             TorrentContextMenu(torrent: torrent)
+        }
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func glassCard(isSelected: Bool) -> some View {
+        if #available(macOS 26, *) {
+            self
+                .glassEffect(
+                    .regular.interactive(),
+                    in: .rect(cornerRadius: 14)
+                )
+                .overlay {
+                    if isSelected {
+                        RoundedRectangle(cornerRadius: 14)
+                            .strokeBorder(Color.accentColor.opacity(0.3), lineWidth: 1.5)
+                    }
+                }
+        } else {
+            self
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 14))
+                .overlay {
+                    if isSelected {
+                        RoundedRectangle(cornerRadius: 14)
+                            .strokeBorder(Color.accentColor.opacity(0.3), lineWidth: 1.5)
+                    }
+                }
         }
     }
 }
