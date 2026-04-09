@@ -1,0 +1,27 @@
+# Xcode
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+build/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xccheckout
+*.moved-aside
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+
+# libtorrent build artifacts
+LibTorrentKit/lib/
+LibTorrentKit/build/
+
+# macOS
+.DS_Store
+*.dSYM
+
+# App data
+*.app
