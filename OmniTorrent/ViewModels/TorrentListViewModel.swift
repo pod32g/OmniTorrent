@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import UserNotifications
 import OmniTorrentEngine
 
 enum SidebarFilter: String, CaseIterable {
@@ -64,10 +65,46 @@ final class TorrentListViewModel {
     }
 
     private func handleEvent(_ event: TorrentEvent) {
+        switch event {
+        case .completed(let torrent, let options):
+            postCompletionNotification(for: torrent)
+            executeCompletionAction(options.completionAction, torrent: torrent)
+        default:
+            break
+        }
+
         Task {
             let allTorrents = await manager.torrents
             self.torrents = Array(allTorrents.values).sorted { $0.name < $1.name }
             self.globalStats = await manager.globalStats
+        }
+    }
+
+    private func postCompletionNotification(for torrent: Torrent) {
+        let content = UNMutableNotificationContent()
+        content.title = "Download Complete"
+        content.body = torrent.name
+        content.sound = .default
+        content.categoryIdentifier = "TORRENT_COMPLETE"
+        content.userInfo = ["savePath": torrent.savePath, "torrentName": torrent.name]
+        let request = UNNotificationRequest(
+            identifier: "complete-\(torrent.id.uuidString)",
+            content: content,
+            trigger: nil
+        )
+        UNUserNotificationCenter.current().add(request)
+    }
+
+    private func executeCompletionAction(_ action: CompletionAction, torrent: Torrent) {
+        switch action {
+        case .doNothing:
+            break
+        case .openFile:
+            let url = URL(fileURLWithPath: torrent.savePath).appendingPathComponent(torrent.name)
+            NSWorkspace.shared.open(url)
+        case .revealInFinder:
+            let path = URL(fileURLWithPath: torrent.savePath).appendingPathComponent(torrent.name).path
+            NSWorkspace.shared.selectFile(path, inFileViewerRootedAtPath: torrent.savePath)
         }
     }
 
@@ -117,5 +154,13 @@ final class TorrentListViewModel {
 
     func trackers(for id: TorrentID) async -> [TrackerInfo] {
         await manager.trackers(for: id)
+    }
+
+    func torrentOptions(for id: TorrentID) async -> TorrentOptions {
+        await manager.torrentOptions(for: id)
+    }
+
+    func setTorrentOptions(_ options: TorrentOptions, for id: TorrentID) {
+        Task { await manager.setTorrentOptions(options, for: id) }
     }
 }
