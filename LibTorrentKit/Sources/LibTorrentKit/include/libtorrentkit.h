@@ -28,6 +28,7 @@ void lt_torrent_remove(lt_session_t* session, lt_torrent_t* torrent, bool delete
 void lt_torrent_set_sequential(lt_torrent_t* torrent, bool sequential);
 void lt_torrent_set_download_limit(lt_torrent_t* torrent, int bytes_per_sec);
 void lt_torrent_set_upload_limit(lt_torrent_t* torrent, int bytes_per_sec);
+void lt_torrent_move_storage(lt_torrent_t* torrent, const char* new_path);
 
 typedef struct {
     int state;

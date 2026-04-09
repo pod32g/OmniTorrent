@@ -199,6 +199,11 @@ void lt_torrent_set_upload_limit(lt_torrent_t* torrent, int bytes_per_sec) {
     torrent->handle.set_upload_limit(bytes_per_sec);
 }
 
+void lt_torrent_move_storage(lt_torrent_t* torrent, const char* new_path) {
+    if (!torrent || !new_path) return;
+    torrent->handle.move_storage(std::string(new_path));
+}
+
 // --- Torrent status ---
 
 bool lt_get_status(lt_torrent_t* torrent, lt_torrent_status_t* out) {
