@@ -116,6 +116,36 @@ struct TorrentContextMenu: View {
 
         Divider()
 
+        Menu("On Complete") {
+            Button("Do Nothing") { updateCompletionAction(.doNothing) }
+            Button("Open File") { updateCompletionAction(.openFile) }
+            Button("Reveal in Finder") { updateCompletionAction(.revealInFinder) }
+            Divider()
+            Button("Move To...") {
+                let panel = NSOpenPanel()
+                panel.canChooseFiles = false
+                panel.canChooseDirectories = true
+                panel.begin { response in
+                    if response == .OK, let url = panel.url {
+                        Task { @MainActor in
+                            var options = await viewModel.torrentOptions(for: torrent.id)
+                            options.moveToPath = url.path
+                            viewModel.setTorrentOptions(options, for: torrent.id)
+                        }
+                    }
+                }
+            }
+            Button("Don't Move") {
+                Task { @MainActor in
+                    var options = await viewModel.torrentOptions(for: torrent.id)
+                    options.moveToPath = nil
+                    viewModel.setTorrentOptions(options, for: torrent.id)
+                }
+            }
+        }
+
+        Divider()
+
         Button("Reveal in Finder") {
             NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: torrent.savePath)
         }
@@ -127,6 +157,14 @@ struct TorrentContextMenu: View {
         }
         Button("Remove & Delete Files", role: .destructive) {
             viewModel.removeTorrent(torrent.id, deleteFiles: true)
+        }
+    }
+
+    private func updateCompletionAction(_ action: CompletionAction) {
+        Task { @MainActor in
+            var options = await viewModel.torrentOptions(for: torrent.id)
+            options.completionAction = action
+            viewModel.setTorrentOptions(options, for: torrent.id)
         }
     }
 }
