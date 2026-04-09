@@ -56,4 +56,43 @@ public struct Persistence: Sendable {
         let fileURL = resumeDirectory.appendingPathComponent("\(id.uuidString).resume")
         try FileManager.default.removeItem(at: fileURL)
     }
+
+    // MARK: - Torrent Options
+
+    private var optionsDirectory: URL {
+        baseDirectory.appendingPathComponent("options")
+    }
+
+    public func saveOptions(_ options: TorrentOptions, for id: TorrentID) throws {
+        try FileManager.default.createDirectory(at: optionsDirectory, withIntermediateDirectories: true)
+        let fileURL = optionsDirectory.appendingPathComponent("\(id.uuidString).json")
+        let data = try JSONEncoder().encode(options)
+        try data.write(to: fileURL, options: .atomic)
+    }
+
+    public func loadOptions(for id: TorrentID) -> TorrentOptions {
+        let fileURL = optionsDirectory.appendingPathComponent("\(id.uuidString).json")
+        guard let data = try? Data(contentsOf: fileURL),
+              let options = try? JSONDecoder().decode(TorrentOptions.self, from: data) else {
+            return TorrentOptions()
+        }
+        return options
+    }
+
+    public func deleteOptions(for id: TorrentID) throws {
+        let fileURL = optionsDirectory.appendingPathComponent("\(id.uuidString).json")
+        try FileManager.default.removeItem(at: fileURL)
+    }
+
+    public func allOptionFiles() -> [(id: TorrentID, options: TorrentOptions)] {
+        guard let contents = try? FileManager.default.contentsOfDirectory(at: optionsDirectory, includingPropertiesForKeys: nil) else { return [] }
+        return contents.compactMap { url in
+            guard url.pathExtension == "json" else { return nil }
+            let name = url.deletingPathExtension().lastPathComponent
+            guard let id = TorrentID(uuidString: name),
+                  let data = try? Data(contentsOf: url),
+                  let options = try? JSONDecoder().decode(TorrentOptions.self, from: data) else { return nil }
+            return (id, options)
+        }
+    }
 }
