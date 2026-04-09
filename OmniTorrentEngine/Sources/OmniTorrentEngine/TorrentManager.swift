@@ -1,12 +1,19 @@
 import Foundation
 import LibTorrentKit
 
+public struct SpeedSample: Sendable, Identifiable {
+    public let id: Int  // index/timestamp
+    public let downloadRate: Int
+    public let uploadRate: Int
+}
+
 public struct GlobalStats: Sendable {
     public var downloadRate: Int
     public var uploadRate: Int
     public var activeTorrents: Int
+    public var speedHistory: [SpeedSample]  // rolling 60 samples (1 minute)
 
-    public static let zero = GlobalStats(downloadRate: 0, uploadRate: 0, activeTorrents: 0)
+    public static let zero = GlobalStats(downloadRate: 0, uploadRate: 0, activeTorrents: 0, speedHistory: [])
 }
 
 public struct TrackerInfo: Identifiable, Sendable {
@@ -281,6 +288,15 @@ public actor TorrentManager {
         }
     }
 
+    public func pieces(for id: TorrentID) -> [Bool] {
+        guard let handle = handleMap[id] else { return [] }
+        let count = lt_get_piece_count(handle)
+        guard count > 0 else { return [] }
+        var pieces = [Bool](repeating: false, count: Int(count))
+        guard lt_get_pieces(handle, &pieces, count) else { return [] }
+        return pieces
+    }
+
     public func trackers(for id: TorrentID) -> [TrackerInfo] {
         guard let handle = handleMap[id] else { return [] }
         let count = lt_get_tracker_count(handle)
@@ -390,10 +406,19 @@ public actor TorrentManager {
             }
         }
 
+        // Update speed history (keep last 60 samples)
+        var history = globalStats.speedHistory
+        let sample = SpeedSample(id: history.count, downloadRate: totalDown, uploadRate: totalUp)
+        history.append(sample)
+        if history.count > 60 {
+            history.removeFirst(history.count - 60)
+        }
+
         globalStats = GlobalStats(
             downloadRate: totalDown,
             uploadRate: totalUp,
-            activeTorrents: activeCount
+            activeTorrents: activeCount,
+            speedHistory: history
         )
     }
 }
