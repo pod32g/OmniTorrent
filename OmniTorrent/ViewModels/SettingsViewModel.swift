@@ -15,6 +15,7 @@ final class SettingsViewModel {
     var maxActiveSeeds: Int
     var launchAtLogin: Bool
     var watchFolderPath: String?
+    var bandwidthSchedule: [ScheduleSlot]
 
     init(manager: TorrentManager) {
         self.manager = manager
@@ -29,6 +30,7 @@ final class SettingsViewModel {
         self.maxActiveSeeds = settings.maxActiveSeeds
         self.launchAtLogin = settings.launchAtLogin
         self.watchFolderPath = settings.watchFolderPath
+        self.bandwidthSchedule = settings.bandwidthSchedule
     }
 
     func save() {
@@ -41,7 +43,8 @@ final class SettingsViewModel {
             maxActiveDownloads: maxActiveDownloads,
             maxActiveSeeds: maxActiveSeeds,
             launchAtLogin: launchAtLogin,
-            watchFolderPath: watchFolderPath
+            watchFolderPath: watchFolderPath,
+            bandwidthSchedule: bandwidthSchedule
         )
         Task { await manager.updateSettings(settings) }
     }
