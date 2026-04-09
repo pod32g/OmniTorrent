@@ -406,17 +406,21 @@ public actor TorrentManager {
             }
         }
 
+        // Zero out speeds if no active torrents (filters DHT/tracker background noise)
+        let reportedDown = activeCount > 0 ? totalDown : 0
+        let reportedUp = activeCount > 0 ? totalUp : 0
+
         // Update speed history (keep last 60 samples)
         var history = globalStats.speedHistory
-        let sample = SpeedSample(id: history.count, downloadRate: totalDown, uploadRate: totalUp)
+        let sample = SpeedSample(id: history.count, downloadRate: reportedDown, uploadRate: reportedUp)
         history.append(sample)
         if history.count > 60 {
             history.removeFirst(history.count - 60)
         }
 
         globalStats = GlobalStats(
-            downloadRate: totalDown,
-            uploadRate: totalUp,
+            downloadRate: reportedDown,
+            uploadRate: reportedUp,
             activeTorrents: activeCount,
             speedHistory: history
         )
