@@ -1,5 +1,19 @@
 import Foundation
 
+public struct ScheduleSlot: Codable, Sendable, Equatable {
+    public var startHour: Int      // 0-23
+    public var endHour: Int        // 0-23 (exclusive, wraps at midnight)
+    public var maxDownloadRate: Int // bytes/sec, 0 = unlimited
+    public var maxUploadRate: Int   // bytes/sec, 0 = unlimited
+
+    public init(startHour: Int, endHour: Int, maxDownloadRate: Int, maxUploadRate: Int) {
+        self.startHour = startHour
+        self.endHour = endHour
+        self.maxDownloadRate = maxDownloadRate
+        self.maxUploadRate = maxUploadRate
+    }
+}
+
 public struct EngineSettings: Codable, Sendable, Equatable {
     public var downloadPath: String
     public var listenPort: Int
@@ -10,6 +24,7 @@ public struct EngineSettings: Codable, Sendable, Equatable {
     public var maxActiveSeeds: Int      // 0 = unlimited
     public var launchAtLogin: Bool
     public var watchFolderPath: String?  // nil = disabled
+    public var bandwidthSchedule: [ScheduleSlot]  // empty = no schedule (use global limits)
 
     public static let defaults = EngineSettings(
         downloadPath: NSSearchPathForDirectoriesInDomains(.downloadsDirectory, .userDomainMask, true).first ?? "~/Downloads",
@@ -20,10 +35,11 @@ public struct EngineSettings: Codable, Sendable, Equatable {
         maxActiveDownloads: 3,
         maxActiveSeeds: 5,
         launchAtLogin: false,
-        watchFolderPath: nil
+        watchFolderPath: nil,
+        bandwidthSchedule: []
     )
 
-    public init(downloadPath: String, listenPort: Int, maxDownloadRate: Int, maxUploadRate: Int, maxConnections: Int, maxActiveDownloads: Int = 3, maxActiveSeeds: Int = 5, launchAtLogin: Bool = false, watchFolderPath: String? = nil) {
+    public init(downloadPath: String, listenPort: Int, maxDownloadRate: Int, maxUploadRate: Int, maxConnections: Int, maxActiveDownloads: Int = 3, maxActiveSeeds: Int = 5, launchAtLogin: Bool = false, watchFolderPath: String? = nil, bandwidthSchedule: [ScheduleSlot] = []) {
         self.downloadPath = downloadPath
         self.listenPort = listenPort
         self.maxDownloadRate = maxDownloadRate
@@ -33,5 +49,6 @@ public struct EngineSettings: Codable, Sendable, Equatable {
         self.maxActiveSeeds = maxActiveSeeds
         self.launchAtLogin = launchAtLogin
         self.watchFolderPath = watchFolderPath
+        self.bandwidthSchedule = bandwidthSchedule
     }
 }

@@ -314,6 +314,27 @@ public actor TorrentManager {
         }
     }
 
+    // MARK: - Bandwidth Schedule
+
+    private func applyScheduledLimits() {
+        let hour = Calendar.current.component(.hour, from: Date())
+
+        if let slot = settings.bandwidthSchedule.first(where: { slot in
+            if slot.startHour <= slot.endHour {
+                return hour >= slot.startHour && hour < slot.endHour
+            } else {
+                // Wraps midnight (e.g. 22-6)
+                return hour >= slot.startHour || hour < slot.endHour
+            }
+        }) {
+            lt_session_set_download_limit(session, Int32(slot.maxDownloadRate))
+            lt_session_set_upload_limit(session, Int32(slot.maxUploadRate))
+        } else {
+            lt_session_set_download_limit(session, Int32(settings.maxDownloadRate))
+            lt_session_set_upload_limit(session, Int32(settings.maxUploadRate))
+        }
+    }
+
     // MARK: - Polling
 
     private func saveAllResumeData() {
@@ -424,5 +445,7 @@ public actor TorrentManager {
             activeTorrents: activeCount,
             speedHistory: history
         )
+
+        applyScheduledLimits()
     }
 }
