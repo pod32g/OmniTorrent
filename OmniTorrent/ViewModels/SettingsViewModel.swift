@@ -4,7 +4,7 @@ import OmniTorrentEngine
 @MainActor
 @Observable
 final class SettingsViewModel {
-    private let manager: TorrentManager
+    let manager: TorrentManager
 
     var downloadPath: String
     var listenPort: Int

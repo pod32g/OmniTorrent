@@ -116,6 +116,9 @@ struct SettingsView: View {
 
             ScheduleTabView(viewModel: viewModel)
                 .tabItem { Label("Schedule", systemImage: "clock") }
+
+            RSSFeedsTabView(manager: viewModel.manager)
+                .tabItem { Label("RSS", systemImage: "dot.radiowaves.up.forward") }
         }
         .frame(width: 500, height: 340)
         .onAppear { isDefaultClient = checkIsDefaultTorrentClient() }
@@ -273,5 +276,69 @@ private struct RateField: View {
                         .allowsHitTesting(false)
                 }
             }
+    }
+}
+
+// MARK: - RSS Feeds Tab
+
+private struct RSSFeedsTabView: View {
+    let manager: TorrentManager
+    @State private var feeds: [RSSFeed] = []
+    @State private var newURL = ""
+    @State private var newName = ""
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            List {
+                ForEach(feeds) { feed in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(feed.name).font(.headline)
+                        Text(feed.url)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                        HStack {
+                            Text("Every \(feed.refreshInterval) min")
+                            if let pattern = feed.filterPattern, !pattern.isEmpty {
+                                Text("Filter: \(pattern)")
+                            }
+                            Spacer()
+                            if let last = feed.lastChecked {
+                                Text("Last: \(last.formatted(.relative(presentation: .named)))")
+                            }
+                        }
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                    }
+                    .contextMenu {
+                        Button("Remove", role: .destructive) {
+                            feeds.removeAll { $0.id == feed.id }
+                            Task { await manager.updateRSSFeeds(feeds) }
+                        }
+                    }
+                }
+            }
+            .listStyle(.inset)
+
+            Divider()
+
+            HStack {
+                TextField("Name", text: $newName)
+                    .frame(width: 100)
+                TextField("Feed URL", text: $newURL)
+                Button("Add") {
+                    guard !newURL.isEmpty else { return }
+                    let name = newName.isEmpty ? "Feed" : newName
+                    feeds.append(RSSFeed(name: name, url: newURL))
+                    newURL = ""
+                    newName = ""
+                    Task { await manager.updateRSSFeeds(feeds) }
+                }
+            }
+            .padding(8)
+        }
+        .task {
+            feeds = await manager.getRSSFeeds()
+        }
     }
 }

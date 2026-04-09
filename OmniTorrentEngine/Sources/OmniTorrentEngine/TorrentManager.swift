@@ -31,6 +31,7 @@ public actor TorrentManager {
     private let persistence: Persistence
     private var pollingTask: Task<Void, Never>?
     private var watchMonitor: WatchFolderMonitor?
+    private var rssManager: RSSManager?
 
     // Published state
     public private(set) var torrents: [TorrentID: Torrent] = [:]
@@ -99,6 +100,17 @@ public actor TorrentManager {
             startWatchMonitor(path: watchPath)
         }
 
+        // Start RSS manager
+        let feeds = persistence.loadFeeds()
+        if !feeds.isEmpty {
+            let manager = RSSManager(feeds: feeds, persistence: persistence) { [weak self] source in
+                guard let self else { return }
+                _ = try? await self.addTorrent(source: source)
+            }
+            rssManager = manager
+            Task { await manager.start() }
+        }
+
         // Start polling
         var pollCount = 0
         pollingTask = Task { [weak self] in
@@ -120,6 +132,10 @@ public actor TorrentManager {
         saveAllResumeData()
         watchMonitor?.stop()
         watchMonitor = nil
+
+        let rss = rssManager
+        rssManager = nil
+        Task { await rss?.stop() }
 
         if let session {
             lt_session_destroy(session)
@@ -312,6 +328,23 @@ public actor TorrentManager {
                 isWorking: cTrackers[i].is_working
             )
         }
+    }
+
+    // MARK: - RSS Feeds
+
+    public func getRSSFeeds() async -> [RSSFeed] {
+        await rssManager?.getFeeds() ?? persistence.loadFeeds()
+    }
+
+    public func updateRSSFeeds(_ feeds: [RSSFeed]) async {
+        if rssManager == nil {
+            rssManager = RSSManager(feeds: feeds, persistence: persistence) { [weak self] source in
+                guard let self else { return }
+                _ = try? await self.addTorrent(source: source)
+            }
+            await rssManager?.start()
+        }
+        await rssManager?.updateFeeds(feeds)
     }
 
     // MARK: - Bandwidth Schedule

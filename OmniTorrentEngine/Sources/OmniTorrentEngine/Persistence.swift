@@ -95,4 +95,22 @@ public struct Persistence: Sendable {
             return (id, options)
         }
     }
+
+    // MARK: - RSS Feeds
+
+    private var feedsURL: URL { baseDirectory.appendingPathComponent("feeds.json") }
+
+    public func saveFeeds(_ feeds: [RSSFeed]) throws {
+        try FileManager.default.createDirectory(at: baseDirectory, withIntermediateDirectories: true)
+        let data = try JSONEncoder().encode(feeds)
+        try data.write(to: feedsURL, options: .atomic)
+    }
+
+    public func loadFeeds() -> [RSSFeed] {
+        guard let data = try? Data(contentsOf: feedsURL),
+              let feeds = try? JSONDecoder().decode([RSSFeed].self, from: data) else {
+            return []
+        }
+        return feeds
+    }
 }
