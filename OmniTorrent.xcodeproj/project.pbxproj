@@ -1,0 +1,415 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		198F615987242455CE43DD8F /* TrackersTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5933D30ABE4575E12192898 /* TrackersTabView.swift */; };
+		1A8CDA634DAA5FE408BDD285 /* OmniTorrentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BD0BB7CC2F914181445CB9 /* OmniTorrentApp.swift */; };
+		2F261367E35FE3FC943354E4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABBB7A7D5F53B9B9BC01327 /* ContentView.swift */; };
+		331B976544490977E1AD2499 /* TorrentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B060DEFEF4E65B85F3559C /* TorrentListView.swift */; };
+		5686B411ABCACE25EC0579FC /* OmniTorrentEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 9CCD57DD06BD91C367CC3A21 /* OmniTorrentEngine */; };
+		756706301A25D3DD5EFE61C4 /* StatusColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CF9C417678DB8734E1F2AC /* StatusColor.swift */; };
+		786D298B95645ABD25BB65F0 /* PeersTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F412DB6ED086D56994E865F /* PeersTabView.swift */; };
+		95D00AB0FDB67C1A0F7E0CB1 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632B9FB09B76335F78C29559 /* SettingsViewModel.swift */; };
+		A18BD526B4398E0BC4EDA5E1 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D65D3DD47525C4DF1E3E76 /* SidebarView.swift */; };
+		B10310D70619D92B628D9DBF /* TorrentCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF114A002128285872AD9734 /* TorrentCardView.swift */; };
+		B37315F323B7E8B1A306D44C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF82947BA60ED81B7ACD20C /* SettingsView.swift */; };
+		B606066C4ACA221FCCD1D4E9 /* InfoTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5866B631892325F9F01C6A4C /* InfoTabView.swift */; };
+		B782006CE84F1FF1B80E74CF /* TorrentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB4D63B77468ADD209398CF /* TorrentListViewModel.swift */; };
+		CC02FC822461884046754C0D /* FormatHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DF454933276D68F171F0EE /* FormatHelpers.swift */; };
+		DA319F7FEC6DA1603ABDCDF8 /* DetailPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D0DAAA368D235537DDD974 /* DetailPanelView.swift */; };
+		F86254FA582209E6DC9A008E /* FilesTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C226290070FFCC76428D44 /* FilesTabView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		21DF454933276D68F171F0EE /* FormatHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatHelpers.swift; sourceTree = "<group>"; };
+		37BD0BB7CC2F914181445CB9 /* OmniTorrentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OmniTorrentApp.swift; sourceTree = "<group>"; };
+		44E7BE3B4BD90AC3698B6968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5866B631892325F9F01C6A4C /* InfoTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTabView.swift; sourceTree = "<group>"; };
+		632B9FB09B76335F78C29559 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		78C226290070FFCC76428D44 /* FilesTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesTabView.swift; sourceTree = "<group>"; };
+		8ABBB7A7D5F53B9B9BC01327 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		8F412DB6ED086D56994E865F /* PeersTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeersTabView.swift; sourceTree = "<group>"; };
+		96D0DAAA368D235537DDD974 /* DetailPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPanelView.swift; sourceTree = "<group>"; };
+		A2D65D3DD47525C4DF1E3E76 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
+		AF114A002128285872AD9734 /* TorrentCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorrentCardView.swift; sourceTree = "<group>"; };
+		B2B0E4A031AE54B55C17689D /* OmniTorrentEngine */ = {isa = PBXFileReference; lastKnownFileType = folder; name = OmniTorrentEngine; path = OmniTorrentEngine; sourceTree = SOURCE_ROOT; };
+		B5933D30ABE4575E12192898 /* TrackersTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersTabView.swift; sourceTree = "<group>"; };
+		DC9673EBA54284DCA658DE16 /* OmniTorrent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmniTorrent.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFF82947BA60ED81B7ACD20C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E0CF9C417678DB8734E1F2AC /* StatusColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusColor.swift; sourceTree = "<group>"; };
+		EBB4D63B77468ADD209398CF /* TorrentListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorrentListViewModel.swift; sourceTree = "<group>"; };
+		F7B060DEFEF4E65B85F3559C /* TorrentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorrentListView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		68669255D318528CD090CB2C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5686B411ABCACE25EC0579FC /* OmniTorrentEngine in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0694CE66BA8EC42ECAB9248D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				632B9FB09B76335F78C29559 /* SettingsViewModel.swift */,
+				EBB4D63B77468ADD209398CF /* TorrentListViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		19EB9F977E937B0E7C71C533 = {
+			isa = PBXGroup;
+			children = (
+				E5E98A7C0D479F6A19764AB3 /* OmniTorrent */,
+				34F0C14CCEE0A20B781540B6 /* Packages */,
+				ADCAA63A8CDF77674E50F1F5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		34F0C14CCEE0A20B781540B6 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				B2B0E4A031AE54B55C17689D /* OmniTorrentEngine */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		7F0A037B4CE1A2BCCB9A1F69 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				21DF454933276D68F171F0EE /* FormatHelpers.swift */,
+				E0CF9C417678DB8734E1F2AC /* StatusColor.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		A241A09E1EA662E09A630FBA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8ABBB7A7D5F53B9B9BC01327 /* ContentView.swift */,
+				96D0DAAA368D235537DDD974 /* DetailPanelView.swift */,
+				78C226290070FFCC76428D44 /* FilesTabView.swift */,
+				5866B631892325F9F01C6A4C /* InfoTabView.swift */,
+				8F412DB6ED086D56994E865F /* PeersTabView.swift */,
+				DFF82947BA60ED81B7ACD20C /* SettingsView.swift */,
+				A2D65D3DD47525C4DF1E3E76 /* SidebarView.swift */,
+				AF114A002128285872AD9734 /* TorrentCardView.swift */,
+				F7B060DEFEF4E65B85F3559C /* TorrentListView.swift */,
+				B5933D30ABE4575E12192898 /* TrackersTabView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		ADCAA63A8CDF77674E50F1F5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DC9673EBA54284DCA658DE16 /* OmniTorrent.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E5E98A7C0D479F6A19764AB3 /* OmniTorrent */ = {
+			isa = PBXGroup;
+			children = (
+				44E7BE3B4BD90AC3698B6968 /* Info.plist */,
+				37BD0BB7CC2F914181445CB9 /* OmniTorrentApp.swift */,
+				7F0A037B4CE1A2BCCB9A1F69 /* Helpers */,
+				0694CE66BA8EC42ECAB9248D /* ViewModels */,
+				A241A09E1EA662E09A630FBA /* Views */,
+			);
+			path = OmniTorrent;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AB0577C8DC689EB4BC528B75 /* OmniTorrent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 452A6B2964AA45B25C4B77B7 /* Build configuration list for PBXNativeTarget "OmniTorrent" */;
+			buildPhases = (
+				BC1CD5C9B6CF734F5E44F26E /* Sources */,
+				68669255D318528CD090CB2C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OmniTorrent;
+			packageProductDependencies = (
+				9CCD57DD06BD91C367CC3A21 /* OmniTorrentEngine */,
+			);
+			productName = OmniTorrent;
+			productReference = DC9673EBA54284DCA658DE16 /* OmniTorrent.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BAF88693E5FC13604B116798 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2630;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = EB23A7AC8CFA443BBBBF08FD /* Build configuration list for PBXProject "OmniTorrent" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 19EB9F977E937B0E7C71C533;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				99CEBB1E4443498F4BE0FD52 /* XCLocalSwiftPackageReference "OmniTorrentEngine" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = ADCAA63A8CDF77674E50F1F5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AB0577C8DC689EB4BC528B75 /* OmniTorrent */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BC1CD5C9B6CF734F5E44F26E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F261367E35FE3FC943354E4 /* ContentView.swift in Sources */,
+				DA319F7FEC6DA1603ABDCDF8 /* DetailPanelView.swift in Sources */,
+				F86254FA582209E6DC9A008E /* FilesTabView.swift in Sources */,
+				CC02FC822461884046754C0D /* FormatHelpers.swift in Sources */,
+				B606066C4ACA221FCCD1D4E9 /* InfoTabView.swift in Sources */,
+				1A8CDA634DAA5FE408BDD285 /* OmniTorrentApp.swift in Sources */,
+				786D298B95645ABD25BB65F0 /* PeersTabView.swift in Sources */,
+				B37315F323B7E8B1A306D44C /* SettingsView.swift in Sources */,
+				95D00AB0FDB67C1A0F7E0CB1 /* SettingsViewModel.swift in Sources */,
+				A18BD526B4398E0BC4EDA5E1 /* SidebarView.swift in Sources */,
+				756706301A25D3DD5EFE61C4 /* StatusColor.swift in Sources */,
+				B10310D70619D92B628D9DBF /* TorrentCardView.swift in Sources */,
+				331B976544490977E1AD2499 /* TorrentListView.swift in Sources */,
+				B782006CE84F1FF1B80E74CF /* TorrentListViewModel.swift in Sources */,
+				198F615987242455CE43DD8F /* TrackersTabView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1D3009F749310835E66F6CAE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = OmniTorrent/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.omnitorrent.app;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		2E01F75B8E8C5CD4BA43D933 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		5BA75C6EF79D54F3209B594B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = OmniTorrent/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.omnitorrent.app;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		D355C6D933E605462D2BDC65 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		452A6B2964AA45B25C4B77B7 /* Build configuration list for PBXNativeTarget "OmniTorrent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5BA75C6EF79D54F3209B594B /* Debug */,
+				1D3009F749310835E66F6CAE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EB23A7AC8CFA443BBBBF08FD /* Build configuration list for PBXProject "OmniTorrent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D355C6D933E605462D2BDC65 /* Debug */,
+				2E01F75B8E8C5CD4BA43D933 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		99CEBB1E4443498F4BE0FD52 /* XCLocalSwiftPackageReference "OmniTorrentEngine" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = OmniTorrentEngine;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9CCD57DD06BD91C367CC3A21 /* OmniTorrentEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OmniTorrentEngine;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = BAF88693E5FC13604B116798 /* Project object */;
+}

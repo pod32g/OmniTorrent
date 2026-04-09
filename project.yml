@@ -1,0 +1,64 @@
+name: OmniTorrent
+options:
+  bundleIdPrefix: com.omnitorrent
+  deploymentTarget:
+    macOS: "26.0"
+  xcodeVersion: "26.3"
+  generateEmptyDirectories: true
+
+packages:
+  OmniTorrentEngine:
+    path: OmniTorrentEngine
+
+targets:
+  OmniTorrent:
+    type: application
+    platform: macOS
+    sources:
+      - OmniTorrent
+    dependencies:
+      - package: OmniTorrentEngine
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.omnitorrent.app
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: 1
+        INFOPLIST_FILE: OmniTorrent/Info.plist
+        GENERATE_INFOPLIST_FILE: false
+        SWIFT_VERSION: "6.0"
+        MACOSX_DEPLOYMENT_TARGET: "26.0"
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGNING_REQUIRED: "NO"
+    info:
+      path: OmniTorrent/Info.plist
+      properties:
+        CFBundleName: OmniTorrent
+        CFBundleDisplayName: OmniTorrent
+        CFBundleIdentifier: com.omnitorrent.app
+        CFBundleVersion: "1"
+        CFBundleShortVersionString: "0.1.0"
+        CFBundlePackageType: APPL
+        CFBundleExecutable: OmniTorrent
+        LSMinimumSystemVersion: "$(MACOSX_DEPLOYMENT_TARGET)"
+        CFBundleURLTypes:
+          - CFBundleURLName: Magnet Links
+            CFBundleURLSchemes:
+              - magnet
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: Torrent File
+            CFBundleTypeExtensions:
+              - torrent
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Default
+            LSItemContentTypes:
+              - org.bittorrent.torrent
+        UTExportedTypeDeclarations:
+          - UTTypeIdentifier: org.bittorrent.torrent
+            UTTypeDescription: BitTorrent File
+            UTTypeConformsTo:
+              - public.data
+            UTTypeTagSpecification:
+              public.filename-extension:
+                - torrent
+              public.mime-type:
+                - application/x-bittorrent
