@@ -74,17 +74,9 @@ struct ContentView: View {
         }
     }
 
-    @ViewBuilder
     private var addButton: some View {
-        if #available(macOS 26, *) {
-            Button(action: openTorrentFile) {
-                Image(systemName: "plus")
-            }
-            .buttonStyle(.glass)
-        } else {
-            Button(action: openTorrentFile) {
-                Image(systemName: "plus")
-            }
+        Button(action: openTorrentFile) {
+            Image(systemName: "plus")
         }
     }
 
