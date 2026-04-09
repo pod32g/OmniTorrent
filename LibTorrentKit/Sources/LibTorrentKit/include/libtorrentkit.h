@@ -88,6 +88,10 @@ void* lt_save_resume_data(lt_torrent_t* torrent, int* out_len);
 int lt_session_torrent_count(lt_session_t* session);
 lt_torrent_t* lt_session_get_torrent(lt_session_t* session, int index);
 
+// --- Piece availability ---
+int lt_get_piece_count(lt_torrent_t* torrent);
+bool lt_get_pieces(lt_torrent_t* torrent, bool* out_pieces, int count);
+
 #ifdef __cplusplus
 }
 #endif

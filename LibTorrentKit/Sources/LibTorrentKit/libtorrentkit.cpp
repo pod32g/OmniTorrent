@@ -382,6 +382,30 @@ void* lt_save_resume_data(lt_torrent_t* torrent, int* out_len) {
     }
 }
 
+// --- Piece availability ---
+
+int lt_get_piece_count(lt_torrent_t* torrent) {
+    if (!torrent) return 0;
+    auto ti = torrent->handle.torrent_file();
+    if (!ti) return 0;
+    return ti->num_pieces();
+}
+
+bool lt_get_pieces(lt_torrent_t* torrent, bool* out_pieces, int count) {
+    if (!torrent || !out_pieces || count <= 0) return false;
+    try {
+        auto st = torrent->handle.status();
+        auto& pieces = st.pieces;
+        int n = std::min(count, static_cast<int>(pieces.size()));
+        for (int i = 0; i < n; i++) {
+            out_pieces[i] = pieces.get_bit(static_cast<lt::piece_index_t>(i));
+        }
+        return true;
+    } catch (...) {
+        return false;
+    }
+}
+
 // --- Enumerate active torrents ---
 
 int lt_session_torrent_count(lt_session_t* session) {
