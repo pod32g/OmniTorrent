@@ -1,11 +1,39 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct SettingsView: View {
     @Bindable var viewModel: SettingsViewModel
+    @State private var isDefaultClient = false
 
     var body: some View {
         TabView {
             Form {
+                Section("File Associations") {
+                    HStack {
+                        if isDefaultClient {
+                            Text("OmniTorrent is the default .torrent handler")
+                                .foregroundStyle(.secondary)
+                        } else {
+                            Text("OmniTorrent is not the default .torrent handler")
+                                .foregroundStyle(.secondary)
+                            Button("Set as Default") {
+                                setAsDefaultTorrentClient()
+                            }
+                        }
+                    }
+                    HStack {
+                        if isMagnetDefault() {
+                            Text("OmniTorrent handles magnet links")
+                                .foregroundStyle(.secondary)
+                        } else {
+                            Text("OmniTorrent does not handle magnet links")
+                                .foregroundStyle(.secondary)
+                            Button("Set as Default") {
+                                setAsDefaultMagnetHandler()
+                            }
+                        }
+                    }
+                }
                 LabeledContent("Download Location") {
                     HStack {
                         Text(viewModel.downloadPath)
@@ -85,6 +113,37 @@ struct SettingsView: View {
             .onChange(of: viewModel.maxConnections) { viewModel.save() }
             .tabItem { Label("Connection", systemImage: "network") }
         }
-        .frame(width: 450, height: 250)
+        .frame(width: 450, height: 300)
+        .onAppear { isDefaultClient = checkIsDefaultTorrentClient() }
+    }
+
+    private func checkIsDefaultTorrentClient() -> Bool {
+        guard let bundleID = Bundle.main.bundleIdentifier,
+              let handler = LSCopyDefaultRoleHandlerForContentType(
+                  "org.bittorrent.torrent" as CFString,
+                  .viewer
+              )?.takeRetainedValue() as String? else { return false }
+        return handler == bundleID
+    }
+
+    private func setAsDefaultTorrentClient() {
+        guard let bundleID = Bundle.main.bundleIdentifier else { return }
+        LSSetDefaultRoleHandlerForContentType(
+            "org.bittorrent.torrent" as CFString,
+            .all,
+            bundleID as CFString
+        )
+        isDefaultClient = true
+    }
+
+    private func isMagnetDefault() -> Bool {
+        guard let bundleID = Bundle.main.bundleIdentifier,
+              let handler = LSCopyDefaultHandlerForURLScheme("magnet" as CFString)?.takeRetainedValue() as String? else { return false }
+        return handler == bundleID
+    }
+
+    private func setAsDefaultMagnetHandler() {
+        guard let bundleID = Bundle.main.bundleIdentifier else { return }
+        LSSetDefaultHandlerForURLScheme("magnet" as CFString, bundleID as CFString)
     }
 }
