@@ -15,6 +15,8 @@ lt_session_t* lt_session_create(int listen_port);
 void lt_session_destroy(lt_session_t* session);
 void lt_session_set_download_limit(lt_session_t* session, int bytes_per_sec);
 void lt_session_set_upload_limit(lt_session_t* session, int bytes_per_sec);
+void lt_session_set_active_downloads(lt_session_t* session, int max_active);
+void lt_session_set_active_seeds(lt_session_t* session, int max_active);
 
 lt_torrent_t* lt_add_torrent_magnet(lt_session_t* session, const char* magnet_uri, const char* save_path);
 lt_torrent_t* lt_add_torrent_file(lt_session_t* session, const char* torrent_path, const char* save_path);

@@ -29,16 +29,28 @@ struct SettingsView: View {
             .tabItem { Label("General", systemImage: "gearshape") }
 
             Form {
-                TextField("Max Download (KB/s, 0=unlimited)",
-                          value: $viewModel.maxDownloadRate,
-                          format: .number)
-                TextField("Max Upload (KB/s, 0=unlimited)",
-                          value: $viewModel.maxUploadRate,
-                          format: .number)
+                Section("Speed Limits") {
+                    TextField("Max Download (KB/s, 0=unlimited)",
+                              value: $viewModel.maxDownloadRate,
+                              format: .number)
+                    TextField("Max Upload (KB/s, 0=unlimited)",
+                              value: $viewModel.maxUploadRate,
+                              format: .number)
+                }
+                Section("Queue Limits") {
+                    TextField("Max Active Downloads (0=unlimited)",
+                              value: $viewModel.maxActiveDownloads,
+                              format: .number)
+                    TextField("Max Active Seeds (0=unlimited)",
+                              value: $viewModel.maxActiveSeeds,
+                              format: .number)
+                }
             }
             .padding()
             .onChange(of: viewModel.maxDownloadRate) { viewModel.save() }
             .onChange(of: viewModel.maxUploadRate) { viewModel.save() }
+            .onChange(of: viewModel.maxActiveDownloads) { viewModel.save() }
+            .onChange(of: viewModel.maxActiveSeeds) { viewModel.save() }
             .tabItem { Label("Transfers", systemImage: "arrow.up.arrow.down") }
 
             Form {

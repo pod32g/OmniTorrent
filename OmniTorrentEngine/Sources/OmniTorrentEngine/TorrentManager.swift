@@ -56,6 +56,12 @@ public actor TorrentManager {
         if settings.maxUploadRate > 0 {
             lt_session_set_upload_limit(session, Int32(settings.maxUploadRate))
         }
+        if settings.maxActiveDownloads > 0 {
+            lt_session_set_active_downloads(session, Int32(settings.maxActiveDownloads))
+        }
+        if settings.maxActiveSeeds > 0 {
+            lt_session_set_active_seeds(session, Int32(settings.maxActiveSeeds))
+        }
 
         // Load resume data
         for (id, url) in persistence.allResumeDataFiles() {
@@ -177,6 +183,8 @@ public actor TorrentManager {
         if let session {
             lt_session_set_download_limit(session, Int32(newSettings.maxDownloadRate))
             lt_session_set_upload_limit(session, Int32(newSettings.maxUploadRate))
+            lt_session_set_active_downloads(session, Int32(newSettings.maxActiveDownloads))
+            lt_session_set_active_seeds(session, Int32(newSettings.maxActiveSeeds))
         }
         try? persistence.saveSettings(newSettings)
     }

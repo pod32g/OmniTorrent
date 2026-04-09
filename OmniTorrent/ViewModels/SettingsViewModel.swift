@@ -11,6 +11,8 @@ final class SettingsViewModel {
     var maxDownloadRate: Int
     var maxUploadRate: Int
     var maxConnections: Int
+    var maxActiveDownloads: Int
+    var maxActiveSeeds: Int
     var launchAtLogin: Bool
 
     init(manager: TorrentManager) {
@@ -22,6 +24,8 @@ final class SettingsViewModel {
         self.maxDownloadRate = settings.maxDownloadRate
         self.maxUploadRate = settings.maxUploadRate
         self.maxConnections = settings.maxConnections
+        self.maxActiveDownloads = settings.maxActiveDownloads
+        self.maxActiveSeeds = settings.maxActiveSeeds
         self.launchAtLogin = settings.launchAtLogin
     }
 
@@ -32,6 +36,8 @@ final class SettingsViewModel {
             maxDownloadRate: maxDownloadRate,
             maxUploadRate: maxUploadRate,
             maxConnections: maxConnections,
+            maxActiveDownloads: maxActiveDownloads,
+            maxActiveSeeds: maxActiveSeeds,
             launchAtLogin: launchAtLogin
         )
         Task { await manager.updateSettings(settings) }

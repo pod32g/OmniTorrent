@@ -91,6 +91,20 @@ void lt_session_set_upload_limit(lt_session_t* session, int bytes_per_sec) {
     session->session.apply_settings(sp);
 }
 
+void lt_session_set_active_downloads(lt_session_t* session, int max_active) {
+    if (!session) return;
+    lt::settings_pack sp;
+    sp.set_int(lt::settings_pack::active_downloads, max_active);
+    session->session.apply_settings(sp);
+}
+
+void lt_session_set_active_seeds(lt_session_t* session, int max_active) {
+    if (!session) return;
+    lt::settings_pack sp;
+    sp.set_int(lt::settings_pack::active_seeds, max_active);
+    session->session.apply_settings(sp);
+}
+
 // --- Adding torrents ---
 
 static lt_torrent_t* wrap_handle(lt_session_t* session, lt::torrent_handle h) {

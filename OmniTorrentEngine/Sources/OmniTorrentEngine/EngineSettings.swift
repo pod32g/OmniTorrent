@@ -6,6 +6,8 @@ public struct EngineSettings: Codable, Sendable, Equatable {
     public var maxDownloadRate: Int  // bytes/sec, 0 = unlimited
     public var maxUploadRate: Int    // bytes/sec, 0 = unlimited
     public var maxConnections: Int
+    public var maxActiveDownloads: Int  // 0 = unlimited
+    public var maxActiveSeeds: Int      // 0 = unlimited
     public var launchAtLogin: Bool
 
     public static let defaults = EngineSettings(
@@ -14,15 +16,19 @@ public struct EngineSettings: Codable, Sendable, Equatable {
         maxDownloadRate: 0,
         maxUploadRate: 0,
         maxConnections: 200,
+        maxActiveDownloads: 3,
+        maxActiveSeeds: 5,
         launchAtLogin: false
     )
 
-    public init(downloadPath: String, listenPort: Int, maxDownloadRate: Int, maxUploadRate: Int, maxConnections: Int, launchAtLogin: Bool = false) {
+    public init(downloadPath: String, listenPort: Int, maxDownloadRate: Int, maxUploadRate: Int, maxConnections: Int, maxActiveDownloads: Int = 3, maxActiveSeeds: Int = 5, launchAtLogin: Bool = false) {
         self.downloadPath = downloadPath
         self.listenPort = listenPort
         self.maxDownloadRate = maxDownloadRate
         self.maxUploadRate = maxUploadRate
         self.maxConnections = maxConnections
+        self.maxActiveDownloads = maxActiveDownloads
+        self.maxActiveSeeds = maxActiveSeeds
         self.launchAtLogin = launchAtLogin
     }
 }
