@@ -14,6 +14,7 @@ final class SettingsViewModel {
     var maxActiveDownloads: Int
     var maxActiveSeeds: Int
     var launchAtLogin: Bool
+    var watchFolderPath: String?
 
     init(manager: TorrentManager) {
         self.manager = manager
@@ -27,6 +28,7 @@ final class SettingsViewModel {
         self.maxActiveDownloads = settings.maxActiveDownloads
         self.maxActiveSeeds = settings.maxActiveSeeds
         self.launchAtLogin = settings.launchAtLogin
+        self.watchFolderPath = settings.watchFolderPath
     }
 
     func save() {
@@ -38,7 +40,8 @@ final class SettingsViewModel {
             maxConnections: maxConnections,
             maxActiveDownloads: maxActiveDownloads,
             maxActiveSeeds: maxActiveSeeds,
-            launchAtLogin: launchAtLogin
+            launchAtLogin: launchAtLogin,
+            watchFolderPath: watchFolderPath
         )
         Task { await manager.updateSettings(settings) }
     }

@@ -24,6 +24,29 @@ struct SettingsView: View {
                 }
                 Toggle("Launch at Login", isOn: $viewModel.launchAtLogin)
                     .onChange(of: viewModel.launchAtLogin) { viewModel.save() }
+                LabeledContent("Watch Folder") {
+                    HStack {
+                        Text(viewModel.watchFolderPath ?? "Disabled")
+                            .foregroundStyle(viewModel.watchFolderPath == nil ? .secondary : .primary)
+                            .lineLimit(1)
+                            .truncationMode(.head)
+                        Button("Choose...") {
+                            let panel = NSOpenPanel()
+                            panel.canChooseFiles = false
+                            panel.canChooseDirectories = true
+                            if panel.runModal() == .OK, let url = panel.url {
+                                viewModel.watchFolderPath = url.path
+                                viewModel.save()
+                            }
+                        }
+                        if viewModel.watchFolderPath != nil {
+                            Button("Disable") {
+                                viewModel.watchFolderPath = nil
+                                viewModel.save()
+                            }
+                        }
+                    }
+                }
             }
             .padding()
             .tabItem { Label("General", systemImage: "gearshape") }

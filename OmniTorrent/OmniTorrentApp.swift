@@ -64,6 +64,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         }
     }
 
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return false
+    }
+
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if !flag {
+            // Re-show window when dock icon is clicked with no windows open
+            for window in sender.windows {
+                if window.canBecomeMain {
+                    window.makeKeyAndOrderFront(nil)
+                    break
+                }
+            }
+        }
+        return true
+    }
+
     func applicationWillTerminate(_ notification: Notification) {
         if let manager = viewModel?.manager {
             let semaphore = DispatchSemaphore(value: 0)
@@ -100,6 +117,12 @@ struct OmniTorrentApp: App {
 
         Settings {
             SettingsView(viewModel: SettingsViewModel(manager: viewModel.manager))
+        }
+
+        MenuBarExtra {
+            MenuBarDropdownView(viewModel: viewModel)
+        } label: {
+            Text("\u{2193} \(FormatHelpers.formatRate(viewModel.globalStats.downloadRate))  \u{2191} \(FormatHelpers.formatRate(viewModel.globalStats.uploadRate))")
         }
     }
 }
