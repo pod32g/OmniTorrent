@@ -15,11 +15,21 @@ let package = Package(
             publicHeadersPath: "include",
             cxxSettings: [
                 .headerSearchPath("../../lib/include"),
+                .unsafeFlags(["-I/opt/homebrew/include"]),
                 .define("TORRENT_USE_OPENSSL", to: "1"),
                 .define("BOOST_ASIO_HAS_STD_INVOKE_RESULT", to: "1"),
+            ],
+            linkerSettings: [
+                .unsafeFlags([
+                    "-L/Users/pod32g/Documents/code/OmniTorrent/LibTorrentKit/lib/lib",
+                    "-L/opt/homebrew/lib",
+                ]),
+                .linkedLibrary("torrent-rasterbar"),
+                .linkedLibrary("ssl"),
+                .linkedLibrary("crypto"),
+                .linkedFramework("CoreFoundation"),
+                .linkedFramework("SystemConfiguration"),
             ]
-            // NOTE: linkerSettings referencing libtorrent-rasterbar, ssl, crypto,
-            // and -L../../lib/lib will be added back in Task 3 once libtorrent is built.
         ),
         .testTarget(
             name: "LibTorrentKitTests",
