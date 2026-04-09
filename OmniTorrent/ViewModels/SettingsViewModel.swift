@@ -16,6 +16,8 @@ final class SettingsViewModel {
     var launchAtLogin: Bool
     var watchFolderPath: String?
     var bandwidthSchedule: [ScheduleSlot]
+    var webRemoteEnabled: Bool
+    var webRemotePort: Int
 
     init(manager: TorrentManager) {
         self.manager = manager
@@ -31,6 +33,8 @@ final class SettingsViewModel {
         self.launchAtLogin = settings.launchAtLogin
         self.watchFolderPath = settings.watchFolderPath
         self.bandwidthSchedule = settings.bandwidthSchedule
+        self.webRemoteEnabled = settings.webRemoteEnabled
+        self.webRemotePort = settings.webRemotePort
     }
 
     func save() {
@@ -44,7 +48,9 @@ final class SettingsViewModel {
             maxActiveSeeds: maxActiveSeeds,
             launchAtLogin: launchAtLogin,
             watchFolderPath: watchFolderPath,
-            bandwidthSchedule: bandwidthSchedule
+            bandwidthSchedule: bandwidthSchedule,
+            webRemoteEnabled: webRemoteEnabled,
+            webRemotePort: webRemotePort
         )
         Task { await manager.updateSettings(settings) }
     }

@@ -32,6 +32,7 @@ public actor TorrentManager {
     private var pollingTask: Task<Void, Never>?
     private var watchMonitor: WatchFolderMonitor?
     private var rssManager: RSSManager?
+    private var webRemote: WebRemote?
 
     // Published state
     public private(set) var torrents: [TorrentID: Torrent] = [:]
@@ -58,7 +59,7 @@ public actor TorrentManager {
 
     // MARK: - Lifecycle
 
-    public func start() {
+    public func start() async {
         guard session == nil else { return }
         session = lt_session_create(Int32(settings.listenPort))
 
@@ -111,6 +112,24 @@ public actor TorrentManager {
             Task { await manager.start() }
         }
 
+        // Start web remote
+        if settings.webRemoteEnabled {
+            webRemote = WebRemote(
+                port: UInt16(settings.webRemotePort),
+                getTorrents: { [weak self] in
+                    guard let self else { return [] }
+                    return Array(await self.torrents.values)
+                },
+                getGlobalStats: { [weak self] in
+                    await self?.globalStats ?? .zero
+                },
+                addMagnet: { [weak self] magnet in
+                    _ = try? await self?.addTorrent(source: .magnet(magnet))
+                }
+            )
+            try? await webRemote?.start()
+        }
+
         // Start polling
         var pollCount = 0
         pollingTask = Task { [weak self] in
@@ -136,6 +155,10 @@ public actor TorrentManager {
         let rss = rssManager
         rssManager = nil
         Task { await rss?.stop() }
+
+        let remote = webRemote
+        webRemote = nil
+        Task { await remote?.stop() }
 
         if let session {
             lt_session_destroy(session)
@@ -227,7 +250,7 @@ public actor TorrentManager {
 
     // MARK: - Settings
 
-    public func updateSettings(_ newSettings: EngineSettings) {
+    public func updateSettings(_ newSettings: EngineSettings) async {
         if let session {
             lt_session_set_download_limit(session, Int32(newSettings.maxDownloadRate))
             lt_session_set_upload_limit(session, Int32(newSettings.maxUploadRate))
@@ -241,6 +264,25 @@ public actor TorrentManager {
             watchMonitor = nil
             if let watchPath = newSettings.watchFolderPath {
                 startWatchMonitor(path: watchPath)
+            }
+        }
+
+        // Update web remote
+        if newSettings.webRemoteEnabled != settings.webRemoteEnabled || newSettings.webRemotePort != settings.webRemotePort {
+            let oldRemote = webRemote
+            webRemote = nil
+            Task { await oldRemote?.stop() }
+            if newSettings.webRemoteEnabled {
+                webRemote = WebRemote(
+                    port: UInt16(newSettings.webRemotePort),
+                    getTorrents: { [weak self] in
+                        guard let self else { return [] }
+                        return Array(await self.torrents.values)
+                    },
+                    getGlobalStats: { [weak self] in await self?.globalStats ?? .zero },
+                    addMagnet: { [weak self] magnet in _ = try? await self?.addTorrent(source: .magnet(magnet)) }
+                )
+                try? await webRemote?.start()
             }
         }
 

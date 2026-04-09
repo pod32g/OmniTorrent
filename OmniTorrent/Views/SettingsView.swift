@@ -1,5 +1,6 @@
 import SwiftUI
 import UniformTypeIdentifiers
+import Darwin
 import OmniTorrentEngine
 
 struct SettingsView: View {
@@ -108,6 +109,20 @@ struct SettingsView: View {
             Form {
                 TextField("Listen Port", value: $viewModel.listenPort, format: .number)
                 TextField("Max Connections", value: $viewModel.maxConnections, format: .number)
+                Section("Web Remote") {
+                    Toggle("Enable Web Remote", isOn: $viewModel.webRemoteEnabled)
+                        .onChange(of: viewModel.webRemoteEnabled) { viewModel.save() }
+                    if viewModel.webRemoteEnabled {
+                        TextField("Port", value: $viewModel.webRemotePort, format: .number)
+                            .onChange(of: viewModel.webRemotePort) { viewModel.save() }
+                        if let ip = getLocalIP() {
+                            Text("Access at http://\(ip):\(viewModel.webRemotePort)")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .textSelection(.enabled)
+                        }
+                    }
+                }
             }
             .padding()
             .onChange(of: viewModel.listenPort) { viewModel.save() }
@@ -152,6 +167,23 @@ struct SettingsView: View {
     private func setAsDefaultMagnetHandler() {
         guard let bundleID = Bundle.main.bundleIdentifier else { return }
         LSSetDefaultHandlerForURLScheme("magnet" as CFString, bundleID as CFString)
+    }
+
+    private func getLocalIP() -> String? {
+        var address: String?
+        var ifaddr: UnsafeMutablePointer<ifaddrs>?
+        guard getifaddrs(&ifaddr) == 0, let firstAddr = ifaddr else { return nil }
+        defer { freeifaddrs(ifaddr) }
+        for ptr in sequence(first: firstAddr, next: { $0.pointee.ifa_next }) {
+            let sa = ptr.pointee.ifa_addr.pointee
+            guard sa.sa_family == UInt8(AF_INET) else { continue }
+            let name = String(cString: ptr.pointee.ifa_name)
+            guard name == "en0" || name == "en1" else { continue }
+            var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+            getnameinfo(ptr.pointee.ifa_addr, socklen_t(sa.sa_len), &hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST)
+            address = String(cString: hostname)
+        }
+        return address
     }
 }
 

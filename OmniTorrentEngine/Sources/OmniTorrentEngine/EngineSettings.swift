@@ -25,6 +25,8 @@ public struct EngineSettings: Codable, Sendable, Equatable {
     public var launchAtLogin: Bool
     public var watchFolderPath: String?  // nil = disabled
     public var bandwidthSchedule: [ScheduleSlot]  // empty = no schedule (use global limits)
+    public var webRemoteEnabled: Bool
+    public var webRemotePort: Int  // default 8080
 
     public static let defaults = EngineSettings(
         downloadPath: NSSearchPathForDirectoriesInDomains(.downloadsDirectory, .userDomainMask, true).first ?? "~/Downloads",
@@ -36,10 +38,12 @@ public struct EngineSettings: Codable, Sendable, Equatable {
         maxActiveSeeds: 5,
         launchAtLogin: false,
         watchFolderPath: nil,
-        bandwidthSchedule: []
+        bandwidthSchedule: [],
+        webRemoteEnabled: false,
+        webRemotePort: 8080
     )
 
-    public init(downloadPath: String, listenPort: Int, maxDownloadRate: Int, maxUploadRate: Int, maxConnections: Int, maxActiveDownloads: Int = 3, maxActiveSeeds: Int = 5, launchAtLogin: Bool = false, watchFolderPath: String? = nil, bandwidthSchedule: [ScheduleSlot] = []) {
+    public init(downloadPath: String, listenPort: Int, maxDownloadRate: Int, maxUploadRate: Int, maxConnections: Int, maxActiveDownloads: Int = 3, maxActiveSeeds: Int = 5, launchAtLogin: Bool = false, watchFolderPath: String? = nil, bandwidthSchedule: [ScheduleSlot] = [], webRemoteEnabled: Bool = false, webRemotePort: Int = 8080) {
         self.downloadPath = downloadPath
         self.listenPort = listenPort
         self.maxDownloadRate = maxDownloadRate
@@ -50,5 +54,7 @@ public struct EngineSettings: Codable, Sendable, Equatable {
         self.launchAtLogin = launchAtLogin
         self.watchFolderPath = watchFolderPath
         self.bandwidthSchedule = bandwidthSchedule
+        self.webRemoteEnabled = webRemoteEnabled
+        self.webRemotePort = webRemotePort
     }
 }
