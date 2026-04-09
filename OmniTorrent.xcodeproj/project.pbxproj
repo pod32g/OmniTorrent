@@ -17,6 +17,7 @@
 		786D298B95645ABD25BB65F0 /* PeersTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F412DB6ED086D56994E865F /* PeersTabView.swift */; };
 		95D00AB0FDB67C1A0F7E0CB1 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632B9FB09B76335F78C29559 /* SettingsViewModel.swift */; };
 		A18BD526B4398E0BC4EDA5E1 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D65D3DD47525C4DF1E3E76 /* SidebarView.swift */; };
+		A1B2C3D4E5F6071823456789 /* MenuBarDropdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A2B3C4D5E6F70812345678 /* MenuBarDropdownView.swift */; };
 		B10310D70619D92B628D9DBF /* TorrentCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF114A002128285872AD9734 /* TorrentCardView.swift */; };
 		B37315F323B7E8B1A306D44C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF82947BA60ED81B7ACD20C /* SettingsView.swift */; };
 		B606066C4ACA221FCCD1D4E9 /* InfoTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5866B631892325F9F01C6A4C /* InfoTabView.swift */; };
@@ -39,6 +40,7 @@
 		9B101763B5D9D40FFA546D6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A2D65D3DD47525C4DF1E3E76 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		AF114A002128285872AD9734 /* TorrentCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorrentCardView.swift; sourceTree = "<group>"; };
+		E1A2B3C4D5E6F70812345678 /* MenuBarDropdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarDropdownView.swift; sourceTree = "<group>"; };
 		B2B0E4A031AE54B55C17689D /* OmniTorrentEngine */ = {isa = PBXFileReference; lastKnownFileType = folder; name = OmniTorrentEngine; path = OmniTorrentEngine; sourceTree = SOURCE_ROOT; };
 		B5933D30ABE4575E12192898 /* TrackersTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersTabView.swift; sourceTree = "<group>"; };
 		DC9673EBA54284DCA658DE16 /* OmniTorrent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmniTorrent.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,6 +107,7 @@
 				8F412DB6ED086D56994E865F /* PeersTabView.swift */,
 				DFF82947BA60ED81B7ACD20C /* SettingsView.swift */,
 				A2D65D3DD47525C4DF1E3E76 /* SidebarView.swift */,
+				E1A2B3C4D5E6F70812345678 /* MenuBarDropdownView.swift */,
 				AF114A002128285872AD9734 /* TorrentCardView.swift */,
 				F7B060DEFEF4E65B85F3559C /* TorrentListView.swift */,
 				B5933D30ABE4575E12192898 /* TrackersTabView.swift */,
@@ -216,6 +219,7 @@
 				95D00AB0FDB67C1A0F7E0CB1 /* SettingsViewModel.swift in Sources */,
 				A18BD526B4398E0BC4EDA5E1 /* SidebarView.swift in Sources */,
 				756706301A25D3DD5EFE61C4 /* StatusColor.swift in Sources */,
+				A1B2C3D4E5F6071823456789 /* MenuBarDropdownView.swift in Sources */,
 				B10310D70619D92B628D9DBF /* TorrentCardView.swift in Sources */,
 				331B976544490977E1AD2499 /* TorrentListView.swift in Sources */,
 				B782006CE84F1FF1B80E74CF /* TorrentListViewModel.swift in Sources */,
