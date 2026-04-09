@@ -5,6 +5,7 @@ public enum TorrentEvent: Sendable {
     case fileProgress(id: TorrentID, files: [FileProgress])
     case peersUpdated(id: TorrentID, peers: [Peer])
     case removed(TorrentID)
+    case completed(Torrent, TorrentOptions)
     case error(id: TorrentID, TorrentError)
 }
 
