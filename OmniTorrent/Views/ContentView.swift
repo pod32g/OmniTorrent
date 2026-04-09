@@ -29,6 +29,8 @@ struct ContentView: View {
         .onOpenURL { url in
             if url.scheme == "magnet" {
                 viewModel.addTorrent(source: .magnet(url.absoluteString))
+            } else if url.isFileURL && url.pathExtension == "torrent" {
+                viewModel.addTorrent(source: .file(url))
             }
         }
         .onDrop(of: [.fileURL], isTargeted: nil) { providers in
