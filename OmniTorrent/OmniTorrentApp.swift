@@ -14,6 +14,7 @@ extension Scene {
 
 class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
     var viewModel: TorrentListViewModel?
+    var pendingURLs: [URL] = []  // URLs received before viewModel is ready
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let center = UNUserNotificationCenter.current()
@@ -55,12 +56,30 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     }
 
     func application(_ application: NSApplication, open urls: [URL]) {
-        for url in urls {
-            if url.scheme == "magnet" {
-                viewModel?.addTorrent(source: .magnet(url.absoluteString))
-            } else if url.pathExtension == "torrent" {
-                viewModel?.addTorrent(source: .file(url))
+        Task { @MainActor in
+            for url in urls {
+                if let vm = viewModel {
+                    openURL(url, with: vm)
+                } else {
+                    pendingURLs.append(url)
+                }
             }
+        }
+    }
+
+    @MainActor func processPendingURLs() {
+        guard let vm = viewModel, !pendingURLs.isEmpty else { return }
+        for url in pendingURLs {
+            openURL(url, with: vm)
+        }
+        pendingURLs.removeAll()
+    }
+
+    @MainActor private func openURL(_ url: URL, with vm: TorrentListViewModel) {
+        if url.scheme == "magnet" {
+            vm.addTorrent(source: .magnet(url.absoluteString))
+        } else if url.pathExtension == "torrent" {
+            vm.addTorrent(source: .file(url))
         }
     }
 
@@ -101,7 +120,10 @@ struct OmniTorrentApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(viewModel: viewModel)
-                .onAppear { appDelegate.viewModel = viewModel }
+                .onAppear {
+                    appDelegate.viewModel = viewModel
+                    appDelegate.processPendingURLs()
+                }
         }
         .defaultSize(width: 1000, height: 700)
         .windowGlass()
