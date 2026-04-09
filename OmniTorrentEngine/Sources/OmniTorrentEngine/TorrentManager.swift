@@ -79,10 +79,16 @@ public actor TorrentManager {
         }
 
         // Start polling
+        var pollCount = 0
         pollingTask = Task { [weak self] in
             while !Task.isCancelled {
                 try? await Task.sleep(for: .seconds(1))
                 await self?.poll()
+                pollCount += 1
+                // Save resume data every 60 seconds
+                if pollCount % 60 == 0 {
+                    await self?.saveAllResumeData()
+                }
             }
         }
     }
@@ -90,16 +96,7 @@ public actor TorrentManager {
     public func stop() {
         pollingTask?.cancel()
         pollingTask = nil
-
-        // Save resume data for all torrents
-        for (id, handle) in handleMap {
-            var len: Int32 = 0
-            if let buf = lt_save_resume_data(handle, &len), len > 0 {
-                let data = Data(bytes: buf, count: Int(len))
-                free(buf)
-                try? persistence.saveResumeData(data, for: id)
-            }
-        }
+        saveAllResumeData()
 
         if let session {
             lt_session_destroy(session)
@@ -249,6 +246,17 @@ public actor TorrentManager {
     }
 
     // MARK: - Polling
+
+    private func saveAllResumeData() {
+        for (id, handle) in handleMap {
+            var len: Int32 = 0
+            if let buf = lt_save_resume_data(handle, &len), len > 0 {
+                let data = Data(bytes: buf, count: Int(len))
+                free(buf)
+                try? persistence.saveResumeData(data, for: id)
+            }
+        }
+    }
 
     private func poll() {
         guard session != nil else { return }

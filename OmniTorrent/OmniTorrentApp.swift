@@ -31,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 await manager.stop()
                 semaphore.signal()
             }
-            semaphore.wait(timeout: .now() + 5)
+            _ = semaphore.wait(timeout: .now() + 1)
         }
     }
 }
