@@ -1,4 +1,5 @@
 import SwiftUI
+import UserNotifications
 import OmniTorrentEngine
 
 extension Scene {
@@ -11,8 +12,47 @@ extension Scene {
     }
 }
 
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
     var viewModel: TorrentListViewModel?
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+        center.requestAuthorization(options: [.alert, .sound]) { _, _ in }
+
+        let showAction = UNNotificationAction(
+            identifier: "SHOW_IN_FINDER",
+            title: "Show in Finder",
+            options: .foreground
+        )
+        let category = UNNotificationCategory(
+            identifier: "TORRENT_COMPLETE",
+            actions: [showAction],
+            intentIdentifiers: []
+        )
+        center.setNotificationCategories([category])
+    }
+
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        if response.actionIdentifier == "SHOW_IN_FINDER" {
+            if let savePath = response.notification.request.content.userInfo["savePath"] as? String {
+                NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: savePath)
+            }
+        }
+        completionHandler()
+    }
+
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.banner, .sound])
+    }
 
     func application(_ application: NSApplication, open urls: [URL]) {
         for url in urls {
