@@ -1,0 +1,59 @@
+import Foundation
+
+public struct Persistence: Sendable {
+    private let baseDirectory: URL
+
+    public init(baseDirectory: URL) {
+        self.baseDirectory = baseDirectory
+    }
+
+    public static var appSupport: Persistence {
+        let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let dir = appSupport.appendingPathComponent("OmniTorrent")
+        return Persistence(baseDirectory: dir)
+    }
+
+    private var settingsURL: URL { baseDirectory.appendingPathComponent("settings.json") }
+
+    public func saveSettings(_ settings: EngineSettings) throws {
+        try FileManager.default.createDirectory(at: baseDirectory, withIntermediateDirectories: true)
+        let data = try JSONEncoder().encode(settings)
+        try data.write(to: settingsURL, options: .atomic)
+    }
+
+    public func loadSettings() throws -> EngineSettings {
+        let data = try Data(contentsOf: settingsURL)
+        return try JSONDecoder().decode(EngineSettings.self, from: data)
+    }
+
+    public func loadSettingsOrDefaults() -> EngineSettings {
+        (try? loadSettings()) ?? .defaults
+    }
+
+    private var resumeDirectory: URL { baseDirectory.appendingPathComponent("resume") }
+
+    public func saveResumeData(_ data: Data, for id: TorrentID) throws {
+        try FileManager.default.createDirectory(at: resumeDirectory, withIntermediateDirectories: true)
+        let fileURL = resumeDirectory.appendingPathComponent("\(id.uuidString).resume")
+        try data.write(to: fileURL, options: .atomic)
+    }
+
+    public func loadResumeData(for id: TorrentID) throws -> Data {
+        let fileURL = resumeDirectory.appendingPathComponent("\(id.uuidString).resume")
+        return try Data(contentsOf: fileURL)
+    }
+
+    public func allResumeDataFiles() -> [(id: TorrentID, url: URL)] {
+        guard let contents = try? FileManager.default.contentsOfDirectory(at: resumeDirectory, includingPropertiesForKeys: nil) else { return [] }
+        return contents.compactMap { url in
+            let name = url.deletingPathExtension().lastPathComponent
+            guard let id = TorrentID(uuidString: name) else { return nil }
+            return (id, url)
+        }
+    }
+
+    public func deleteResumeData(for id: TorrentID) throws {
+        let fileURL = resumeDirectory.appendingPathComponent("\(id.uuidString).resume")
+        try FileManager.default.removeItem(at: fileURL)
+    }
+}
