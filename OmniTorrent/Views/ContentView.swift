@@ -2,6 +2,10 @@ import SwiftUI
 import UniformTypeIdentifiers
 import OmniTorrentEngine
 
+extension Notification.Name {
+    static let openTorrentFile = Notification.Name("openTorrentFile")
+}
+
 struct ContentView: View {
     @Bindable var viewModel: TorrentListViewModel
 
@@ -38,12 +42,37 @@ struct ContentView: View {
             }
             return true
         }
+        .onReceive(NotificationCenter.default.publisher(for: .openTorrentFile)) { _ in
+            openTorrentFile()
+        }
         .toolbar {
             ToolbarItem {
                 Button(action: openTorrentFile) {
                     Image(systemName: "plus")
                 }
             }
+        }
+        .background {
+            // Space bar: pause/resume selected torrent
+            Button("") {
+                guard let torrent = viewModel.selectedTorrent else { return }
+                if torrent.state == .paused {
+                    viewModel.resumeTorrent(torrent.id)
+                } else {
+                    viewModel.pauseTorrent(torrent.id)
+                }
+            }
+            .keyboardShortcut(.space, modifiers: [])
+            .opacity(0)
+
+            // Delete: remove selected torrent
+            Button("") {
+                if let id = viewModel.selectedTorrentID {
+                    viewModel.removeTorrent(id)
+                }
+            }
+            .keyboardShortcut(.delete, modifiers: [])
+            .opacity(0)
         }
     }
 

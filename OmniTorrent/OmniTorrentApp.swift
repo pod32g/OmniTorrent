@@ -37,6 +37,14 @@ struct OmniTorrentApp: App {
                 .onAppear { appDelegate.viewModel = viewModel }
         }
         .defaultSize(width: 1000, height: 700)
+        .commands {
+            CommandGroup(replacing: .newItem) {
+                Button("Open Torrent...") {
+                    NotificationCenter.default.post(name: .openTorrentFile, object: nil)
+                }
+                .keyboardShortcut("o")
+            }
+        }
 
         Settings {
             SettingsView(viewModel: SettingsViewModel(manager: viewModel.manager))
