@@ -9,6 +9,7 @@ public struct EngineSettings: Codable, Sendable, Equatable {
     public var maxActiveDownloads: Int  // 0 = unlimited
     public var maxActiveSeeds: Int      // 0 = unlimited
     public var launchAtLogin: Bool
+    public var watchFolderPath: String?  // nil = disabled
 
     public static let defaults = EngineSettings(
         downloadPath: NSSearchPathForDirectoriesInDomains(.downloadsDirectory, .userDomainMask, true).first ?? "~/Downloads",
@@ -18,10 +19,11 @@ public struct EngineSettings: Codable, Sendable, Equatable {
         maxConnections: 200,
         maxActiveDownloads: 3,
         maxActiveSeeds: 5,
-        launchAtLogin: false
+        launchAtLogin: false,
+        watchFolderPath: nil
     )
 
-    public init(downloadPath: String, listenPort: Int, maxDownloadRate: Int, maxUploadRate: Int, maxConnections: Int, maxActiveDownloads: Int = 3, maxActiveSeeds: Int = 5, launchAtLogin: Bool = false) {
+    public init(downloadPath: String, listenPort: Int, maxDownloadRate: Int, maxUploadRate: Int, maxConnections: Int, maxActiveDownloads: Int = 3, maxActiveSeeds: Int = 5, launchAtLogin: Bool = false, watchFolderPath: String? = nil) {
         self.downloadPath = downloadPath
         self.listenPort = listenPort
         self.maxDownloadRate = maxDownloadRate
@@ -30,5 +32,6 @@ public struct EngineSettings: Codable, Sendable, Equatable {
         self.maxActiveDownloads = maxActiveDownloads
         self.maxActiveSeeds = maxActiveSeeds
         self.launchAtLogin = launchAtLogin
+        self.watchFolderPath = watchFolderPath
     }
 }

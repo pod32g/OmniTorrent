@@ -23,6 +23,7 @@ public actor TorrentManager {
     private var settings: EngineSettings
     private let persistence: Persistence
     private var pollingTask: Task<Void, Never>?
+    private var watchMonitor: WatchFolderMonitor?
 
     // Published state
     public private(set) var torrents: [TorrentID: Torrent] = [:]
@@ -86,6 +87,11 @@ public actor TorrentManager {
             optionsMap[id] = options
         }
 
+        // Start watch folder monitor
+        if let watchPath = settings.watchFolderPath {
+            startWatchMonitor(path: watchPath)
+        }
+
         // Start polling
         var pollCount = 0
         pollingTask = Task { [weak self] in
@@ -105,6 +111,8 @@ public actor TorrentManager {
         pollingTask?.cancel()
         pollingTask = nil
         saveAllResumeData()
+        watchMonitor?.stop()
+        watchMonitor = nil
 
         if let session {
             lt_session_destroy(session)
@@ -197,14 +205,38 @@ public actor TorrentManager {
     // MARK: - Settings
 
     public func updateSettings(_ newSettings: EngineSettings) {
-        settings = newSettings
         if let session {
             lt_session_set_download_limit(session, Int32(newSettings.maxDownloadRate))
             lt_session_set_upload_limit(session, Int32(newSettings.maxUploadRate))
             lt_session_set_active_downloads(session, Int32(newSettings.maxActiveDownloads))
             lt_session_set_active_seeds(session, Int32(newSettings.maxActiveSeeds))
         }
+
+        // Update watch folder
+        if newSettings.watchFolderPath != settings.watchFolderPath {
+            watchMonitor?.stop()
+            watchMonitor = nil
+            if let watchPath = newSettings.watchFolderPath {
+                startWatchMonitor(path: watchPath)
+            }
+        }
+
+        settings = newSettings
         try? persistence.saveSettings(newSettings)
+    }
+
+    private func startWatchMonitor(path: String) {
+        watchMonitor?.stop()
+        watchMonitor = WatchFolderMonitor(path: path) { [weak self] url in
+            guard let self else { return false }
+            do {
+                _ = try await self.addTorrent(source: .file(url))
+                return true
+            } catch {
+                return false
+            }
+        }
+        watchMonitor?.start()
     }
 
     // MARK: - File & Peer Info
