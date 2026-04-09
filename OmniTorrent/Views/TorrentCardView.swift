@@ -4,10 +4,18 @@ import OmniTorrentEngine
 struct TorrentCardView: View {
     let torrent: Torrent
     let isSelected: Bool
+    @State private var tag: TorrentTag = .none
+
+    @Environment(TorrentListViewModel.self) private var viewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
+                if tag != .none {
+                    Circle()
+                        .fill(tag.color)
+                        .frame(width: 8, height: 8)
+                }
                 Text(torrent.name)
                     .font(.system(size: 13, weight: .medium))
                     .lineLimit(1)
@@ -48,6 +56,10 @@ struct TorrentCardView: View {
         .glassCard(isSelected: isSelected)
         .contextMenu {
             TorrentContextMenu(torrent: torrent)
+        }
+        .task {
+            let options = await viewModel.torrentOptions(for: torrent.id)
+            tag = options.tag
         }
     }
 }
@@ -140,6 +152,25 @@ struct TorrentContextMenu: View {
                     var options = await viewModel.torrentOptions(for: torrent.id)
                     options.moveToPath = nil
                     viewModel.setTorrentOptions(options, for: torrent.id)
+                }
+            }
+        }
+
+        Menu("Tag") {
+            ForEach(TorrentTag.allCases) { tag in
+                Button {
+                    Task { @MainActor in
+                        var options = await viewModel.torrentOptions(for: torrent.id)
+                        options.tag = tag
+                        viewModel.setTorrentOptions(options, for: torrent.id)
+                    }
+                } label: {
+                    HStack {
+                        if tag != .none {
+                            Circle().fill(tag.color).frame(width: 8, height: 8)
+                        }
+                        Text(tag.label)
+                    }
                 }
             }
         }

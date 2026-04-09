@@ -24,6 +24,7 @@ struct ContentView: View {
                 }
             }
         }
+        .navigationTitle("OmniTorrent — ↓ \(FormatHelpers.formatRate(viewModel.globalStats.downloadRate))  ↑ \(FormatHelpers.formatRate(viewModel.globalStats.uploadRate))")
         .searchable(text: $viewModel.searchText, prompt: "Search torrents...")
         .onOpenURL { url in
             if url.scheme == "magnet" {

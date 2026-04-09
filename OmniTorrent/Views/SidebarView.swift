@@ -16,7 +16,12 @@ struct SidebarView: View {
         .listStyle(.sidebar)
         .scrollContentBackground(.hidden)
         .safeAreaInset(edge: .bottom) {
-            speedStatsChip
+            VStack(spacing: 4) {
+                if !viewModel.globalStats.speedHistory.isEmpty {
+                    SpeedGraphView(speedHistory: viewModel.globalStats.speedHistory)
+                }
+                speedStatsChip
+            }
         }
     }
 

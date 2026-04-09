@@ -156,6 +156,10 @@ final class TorrentListViewModel {
         await manager.trackers(for: id)
     }
 
+    func pieces(for id: TorrentID) async -> [Bool] {
+        await manager.pieces(for: id)
+    }
+
     func torrentOptions(for id: TorrentID) async -> TorrentOptions {
         await manager.torrentOptions(for: id)
     }

@@ -24,3 +24,29 @@ extension TorrentState {
         }
     }
 }
+
+extension TorrentTag {
+    var color: Color {
+        switch self {
+        case .none: return .clear
+        case .red: return .red
+        case .orange: return .orange
+        case .yellow: return .yellow
+        case .green: return .green
+        case .blue: return .blue
+        case .purple: return .purple
+        }
+    }
+
+    var label: String {
+        switch self {
+        case .none: return "None"
+        case .red: return "Red"
+        case .orange: return "Orange"
+        case .yellow: return "Yellow"
+        case .green: return "Green"
+        case .blue: return "Blue"
+        case .purple: return "Purple"
+        }
+    }
+}

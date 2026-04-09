@@ -5,6 +5,7 @@ enum DetailTab: String, CaseIterable {
     case files = "Files"
     case peers = "Peers"
     case trackers = "Trackers"
+    case pieces = "Pieces"
     case info = "Info"
 }
 
@@ -34,6 +35,8 @@ struct DetailPanelView: View {
                     PeersTabView(viewModel: viewModel)
                 case .trackers:
                     TrackersTabView(viewModel: viewModel)
+                case .pieces:
+                    PieceMapView(viewModel: viewModel)
                 case .info:
                     InfoTabView(viewModel: viewModel)
                 }
