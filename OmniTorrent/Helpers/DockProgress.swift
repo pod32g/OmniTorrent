@@ -46,22 +46,19 @@ enum DockProgress {
     private static var progressView: DockProgressView?
 
     static func update(torrents: [Torrent]) {
-        let downloading = torrents.filter { $0.state == .downloading }
+        // Include downloading and checking (verification on launch is active work too)
+        let active = torrents.filter { $0.state == .downloading || $0.state == .checking }
 
-        guard !downloading.isEmpty else {
-            // Clear
-            if progressView != nil {
-                NSApplication.shared.dockTile.contentView = nil
-                NSApplication.shared.dockTile.badgeLabel = nil
-                NSApplication.shared.dockTile.display()
-                progressView = nil
-            }
+        guard !active.isEmpty else {
+            NSApplication.shared.dockTile.contentView = nil
+            NSApplication.shared.dockTile.badgeLabel = nil
+            NSApplication.shared.dockTile.display()
+            progressView = nil
             return
         }
 
-        let totalProgress = downloading.reduce(Float(0)) { $0 + $1.progress } / Float(downloading.count)
+        let totalProgress = active.reduce(Float(0)) { $0 + $1.progress } / Float(active.count)
 
-        // Create or update the progress view
         let tileSize = NSApplication.shared.dockTile.size
         if progressView == nil {
             let view = DockProgressView(frame: NSRect(origin: .zero, size: tileSize))
@@ -70,6 +67,7 @@ enum DockProgress {
         }
 
         progressView?.progress = totalProgress
+        progressView?.needsDisplay = true
         NSApplication.shared.dockTile.badgeLabel = "\(Int(totalProgress * 100))%"
         NSApplication.shared.dockTile.display()
     }
